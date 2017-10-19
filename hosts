@@ -13,3 +13,6 @@ gomel-utm.nb ansible_host=mogilev-utm.nb ansible_os=fortios ansible_user=admin
 grodno-utm.nb ansible_host=mogilev-utm.nb ansible_os=fortios ansible_user=admin
 mogilev-utm.nb ansible_host=mogilev-utm.nb ansible_os=fortios ansible_user=admin
 vitebsk-utm.nb ansible_host=mogilev-utm.nb ansible_os=fortios ansible_user=admin
+
+[pass:children]
+nb
