@@ -1,3 +1,2 @@
-host_vars/*
-group_vars/pass
+group_vars/pass*
 backups*
