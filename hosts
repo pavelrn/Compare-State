@@ -1,0 +1,15 @@
+[edge]
+e.slx ansible_host=172.17.31.10 ansible_os=fortios ansible_user=provnov
+
+[test]
+test100d ansible_host=172.17.17.153 ansible_os=fortios ansible_user=ansible
+
+[nb]
+mogilev-utm.nb1 ansible_host=mogilev-utm.nb ansible_os=fortios ansible_user=admin fortios_vdom=root
+mogilev-utm.nb2 ansible_host=mogilev-utm.nb ansible_os=fortios ansible_user=admin fortios_vdom=BN
+
+[test]
+gomel-utm.nb ansible_host=mogilev-utm.nb ansible_os=fortios ansible_user=admin
+grodno-utm.nb ansible_host=mogilev-utm.nb ansible_os=fortios ansible_user=admin
+mogilev-utm.nb ansible_host=mogilev-utm.nb ansible_os=fortios ansible_user=admin
+vitebsk-utm.nb ansible_host=mogilev-utm.nb ansible_os=fortios ansible_user=admin
