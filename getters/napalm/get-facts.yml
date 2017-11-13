@@ -8,7 +8,6 @@
     password={{ansible_ssh_pass}}
     dev_os={{ansible_os}}
     filter='interfaces,interfaces_ip,ipsec,routes,bgp_neighbors,ospf_neighbors'
-    optional_args="fortios_vdom=BN"
   when: fortios_vdom is undefined
   register: result
 
