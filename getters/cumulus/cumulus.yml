@@ -1,0 +1,57 @@
+#
+# Retrieve Cumulus information
+---
+
+- name: "Get intf information (via facts) - Cumulus"
+  setup:
+    gather_subset: "network"
+    filter: "ansible_swp*"
+  register: swp_info
+  
+- set_fact:
+    state_interfaces: "{{ swp_info.ansible_facts }}"
+
+
+- name: "Get route information - Cumulus"
+  nclu:
+    commands:
+      - show route json
+  register: routes_info
+  
+- set_fact:
+    state_routes: "{{ routes_info.msg }}"
+
+- name: "Get BGP information - Cumulus"
+  nclu:
+    commands:
+      - show bgp summary json
+  register: bgp_info
+  
+- set_fact:
+    state_bgp: "{{ bgp_info.msg }}"
+
+- name: "Get LLDP information - Cumulus"
+  nclu:
+    commands:
+      - show lldp json
+  register: lldp_info
+  
+- set_fact:
+    state_lldp: "{{ lldp_info.msg }}"
+
+
+- name: "Print debug information: /tmp/get-inf-debug.log"
+  delegate_to: localhost 
+  copy: content="{{ state_interfaces | to_nice_json }}" dest="/tmp/get-intf-debug.log" 
+  
+- name: "Print debug information: /tmp/get-routes-debug.log"
+  delegate_to: localhost 
+  copy: content="{{ state_routes | to_nice_json }}" dest="/tmp/get-routes-debug.log" 
+
+- name: "Print debug information: /tmp/get-bgp-debug.log"
+  delegate_to: localhost 
+  copy: content="{{ state_bgp | to_nice_json }}" dest="/tmp/get-bgp-debug.log"
+
+- name: "Print debug information: /tmp/get-lldp-debug.log"
+  delegate_to: localhost 
+  copy: content="{{ state_lldp | to_nice_json }}" dest="/tmp/get-lldp-debug.log"

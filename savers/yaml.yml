@@ -5,19 +5,49 @@
 #
 ---
 - name: Create snapshot directory
+  delegate_to: localhost
   file:
     path: "{{output}}"
     state: directory
   run_once: true
 
-- name: Create host variable files
+- name: Create host variable files - FortiOS
+  delegate_to: localhost
   template:
     src: "yaml.j2"
     dest: "{{output}}/{{inventory_hostname}}.yml"
-  when: fortios_vdom is undefined
+  when: 
+    - fortios_vdom is undefined 
+    - "'fortios' in ansible_os"
 
-- name: Create host variable files
+- name: Create host variable files - FortiOS
+  delegate_to: localhost
   template:
     src: "yaml.j2"
     dest: "{{output}}/{{inventory_hostname}}_{{fortios_vdom}}.yml"
-  when: fortios_vdom is defined
+  when: 
+    - fortios_vdom is defined 
+    - "'fortios' in ansible_os"
+
+
+- name: Create host variable files - Cumulus
+  delegate_to: localhost
+  template:
+    src: "yaml.j2"
+    dest: "{{output}}/{{inventory_hostname}}.yml"
+  when: 
+    - "'cumulus' in ansible_os"
+    
+- name: Delete changing data...
+  delegate_to: localhost  
+  replace:
+    path: "{{output}}/{{inventory_hostname}}.yml"
+    regexp: '(uptime|msgRcvd|msgSent|peerUptime|peerUptimeMsec):.*'
+  when: 
+    - "'cumulus' in ansible_os"
+    
+#- name: Create host variable files - Cumulus
+  #copy: content="{{ state_interfaces }}" dest="{{output}}/{{inventory_hostname}}.yml"
+  #delegate_to: localhost
+  #when: 
+    #- "'cumulus' in ansible_os"

@@ -2,7 +2,7 @@
 # Collect state from network devices. Execute all playbooks in getters/{{os}}
 #
 ---
-- hosts: nb
+- hosts: tc
   roles:
   - napalm
   vars:
@@ -16,6 +16,7 @@
 
   - include_tasks: "{{item}}"
     with_fileglob: [ "getters/napalm/*.yml" ]
+    when: "{{ 'fortios' in ansible_os }}"
 
   - name: Save
     include_tasks: "{{ 'savers/'+format+'.yml' }}"
